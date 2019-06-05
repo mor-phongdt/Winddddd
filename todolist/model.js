@@ -36,7 +36,7 @@ model.removeTodo = (id)=>{
     firebase.firestore().collection("todoList").doc(id).delete();
 }
 
-model.updateTodo =()=>{
+model.updateTodo =(id,name,status)=>{
     firebase.firestore().collection("todoList").doc(id).update({
         content : name,
         status : status

@@ -35,9 +35,9 @@ var firebaseConfig = {
         const circle = status ? CHECK : UNCHECK;
         const line = status ? LINE_THROUGH : "";
         const item = `<li class="item">
-                        <i class="fa ${circle} co" job="complete" id-data=${id} name=${toDo}></i>
+                        <i class="fa ${circle} co" job="complete" id-data="${id}" name="${toDo}" status="${status}"></i>
                         <p class="text ${line}" ">${toDo}</p>
-                        <i class="fa fa-trash-o de" job="delete" id-data=${id}"></i>
+                        <i class="fa fa-trash-o de" job="delete" id-data="${id}"></i>
                         </li>`;
         const position ="beforeend";
         list.insertAdjacentHTML(position,item);
@@ -66,10 +66,11 @@ var firebaseConfig = {
     });
     
     app.completeToDo =(elements)=> {
-        elements.classList.toggle(UNCHECK);    // classList.toggle de xoa hoac them
+       elements.classList.toggle(UNCHECK);    // classList.toggle de xoa hoac them
         elements.classList.toggle(CHECK);
         elements.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);       // querySelector dung de truy cap de the dau tien co class .text
-        //model.updateTodo(elements.getAttribute("id-data"),elements.getAttribute("name"));
+        model.updateTodo(elements.getAttribute("id-data"),elements.getAttribute("name"));
+        
 
     };
     
