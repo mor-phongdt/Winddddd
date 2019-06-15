@@ -8,17 +8,89 @@
   <link rel='stylesheet' type="text/css" href='../css/form.css' />
   <link rel='stylesheet' type="text/css" href='../css/style.css' />
   <link rel="stylesheet" type="text/css" href="../css/resetpassword.css" />
+  <link rel="stylesheet" type="text/css" href="../css/chat.css" />
   <title>Mindx Chats</title>
 </head>
 <body>
   <div id='app'>
-  
-    
+    <div id='chat-screen' class='chat-screen'>
+      <div class='header'>Mindx Chats</div>
+      
+      <div class='chat-container'>
+        <div class='conversation-list'>
+          <div class='add-conversation'>
+            <button class="btn" id='new-conversation' data-name='New conversation'>+New conversation</button>
+          </div>
+          <div class='conversation-list-content' id='conversation-list-content'>
+          
+          </div>
+        </div>
+      
+        <div class="chat-content">
+          <div class='conversation-name'>
+            <h3></h3>
+          </div>
+        
+          <div class="message-container" id="message-container">
+            <div class='message-item my-message'>
+         
+            
+            </div>
+            <div class='message-item orther-message'>
+               
+            
+            </div>
+          </div>
+        
+          <div class = 'message-form-container'>
+            <form id='chat-form'>
+              <input
+                class="message-input"
+                type='text'
+                placeholder="Type a message.."
+                name='message'
+            
+              />
+              <input class="btn"
+                class='send-button'
+                type='submit'
+                value='Send' 
+              />
+            </form>
+          </div>
+        </div>
+        
+        <div class='conversation-member'>
 
+          <div class="member-list">
+            <div class="member-item">asdasd</div>
+            <div class="member-item">asdasd</div>
+            <div class="member-item">asdasd</div>
+          </div>
+
+          <div class="add-member-form">
+            <div class="input-wrapper">
+              <input
+                class="input"
+                type="text"
+                name='email'
+                placeholder="Email"/>
+            </div> 
+            <div id='email-error-message' class='error'></div>
+            <div>
+                <input type='submit' class="btn" value='Add member'/>
+              </div>
+          </div>
+          
+        </div>
+      </div>
+      </div>
+    
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
   <script src='../js/components.js'></script>
   <script src='../js/controller.js'></script>
   <script src='../js/model.js'></script>

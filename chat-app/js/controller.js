@@ -86,3 +86,25 @@ controller.validateResetInfo = (email)=>{
     model.resetPassword(email);
   }
 };
+
+controller.validateAddConversation = (conversationName,userEmail)=>{
+  if(!conversationName){
+    view.renderErrorMessage('conversation-name-error-message','Please input conversation name');
+  }else{
+    view.renderErrorMessage('conversation-name-error-message','');
+  }
+  if (!userEmail) {
+    view.renderErrorMessage('email-error-message', 'Please input email');
+  } else if (!emailRegex.test(userEmail)) {
+    view.renderErrorMessage('email-error-message', 'Invalid email address');
+  }else if(userEmail===model.loginUser.email){
+    view.renderErrorMessage('email-error-message', 'Ypu cant input your own email')
+  
+  } else {
+    view.renderErrorMessage('email-error-message', '');
+  }
+
+  if(conversationName && userEmail && emailRegex.test(userEmail) && userEmail!== model.loginUser.email){
+    model.createConversation(conversationName,userEmail);
+  }
+}

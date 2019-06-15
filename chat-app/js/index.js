@@ -13,5 +13,5 @@ window.onload = () => {
       // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     
-    view.setActiveScreen('loginPage');
+    //view.setActiveScreen('loginPage');
   }

@@ -86,7 +86,56 @@ components.loginPage = `
 </div>
 `;
 
-components.chatPage =`<div id='welcome'>Login success !! </div>`;
+components.chatPage =`<div id='chat-screen' class='chat-screen'>
+<div class='header'>Mindx Chats</div>
+
+<div class='chat-container'>
+  <div class='conversation-list'>
+    <div class='add-conversation'>
+      <button class="btn" id='new-conversation' data-name='New conversation'>+New conversation</button>
+    </div>
+    <div class='conversation-list-content' id='conversation-list-content'>
+    
+    </div>
+  </div>
+
+  <div class="chat-content">
+    <div class='conversation-name'>
+      <h3></h3>
+    </div>
+  
+    <div class="message-container" id="message-container">
+      <div class='message-item my-message'>
+   
+      
+      </div>
+      <div class='message-item orther-message'>
+         
+      
+      </div>
+    </div>
+  
+    <div class = 'message-form-container'>
+      <form id='chat-form'>
+        <input
+          class="message-input"
+          type='text'
+          placeholder="Type a message.."
+          name='message'
+      
+        />
+        <input class="btn"
+          class='send-button'
+          type='submit'
+          value='Send' 
+        />
+      </form>
+    </div>
+  </div>
+
+</div>
+</div>
+`;
 components.resetPasswordPage=`<div class='reset-password-container'>
 <div class='form-wrapper'>
   <div class='logo'>
@@ -105,9 +154,40 @@ components.resetPasswordPage=`<div class='reset-password-container'>
       <div id='email-error-message' class='error'></div>
 
       <div class="input-wrapper">
-          <input class="btn" type='submit' type='submit' value='Submit' />
+          <input class="btn" type='submit'  value='Submit' />
       </div>
     </form>
   </div>
 </div>
 `;
+components.addNewConversation = ` <div class='register-login-container'>
+<div class='form-wrapper'>
+  <div class='logo'>
+    <span>Create a new conversation</span>
+  </div>
+  <form id='create-conversation-form'>
+    <div class='input-wrapper'>
+      <input 
+        class="input"
+        type="text"
+        name="conversationName"
+        placeholder="Conversation name"/>
+    </div>
+    <div id='conversation-name-error-message' class="error"></div>
+    <div class="input-wrapper">
+      <input
+        class='input'
+        type='text'
+        name='userEmail'
+        placeholder="Email address"
+      />
+      <div id='email-error-message' class="error"></div>
+    </div>
+    <div >
+        <button type="submit" class="btn" id='add'>Create</button>
+        <button type='button' class="secondary-btn" id='cancel'>Cancel</button>
+    </div >
+
+  </form>
+</div>
+</div>`
