@@ -26,7 +26,6 @@ controller.validateLoginInfo = (email, password) => {
 };
 
 controller.validateRegisterInfo = (registerInfo) =>{
-  console.log(registerInfo.firstName);
   if(!registerInfo.firstName){
     view.renderErrorMessage('firstName-error-message', 'Please input First name');
   }else{
@@ -84,5 +83,43 @@ controller.validateResetInfo = (email)=>{
   }
   if(email){
     model.resetPassword(email);
+  }
+};
+
+controller.validateAddConversation = (conversationName,userEmail)=>{
+  if(!conversationName){
+    view.renderErrorMessage('conversation-name-error-message','Please input conversation name');
+  }else{
+    view.renderErrorMessage('conversation-name-error-message','');
+  }
+  if (!userEmail) {
+    view.renderErrorMessage('email-error-message', 'Please input email');
+  } else if (!emailRegex.test(userEmail)) {
+    view.renderErrorMessage('email-error-message', 'Invalid email address');
+  }else if(userEmail===model.loginUser.email){
+    view.renderErrorMessage('email-error-message', 'Ypu cant input your own email')
+  
+  } else {
+    view.renderErrorMessage('email-error-message', '');
+  }
+
+  if(conversationName && userEmail && emailRegex.test(userEmail) && userEmail!== model.loginUser.email){
+    model.createConversation(conversationName,userEmail);
+  }
+}
+
+controller.validateAddMemberEmail = (memberEmail)=>{
+  if(!memberEmail){
+    view.renderErrorMessage('email-error-message','Please input email')
+  } else if (!emailRegex.test(memberEmail)){
+    view.renderErrorMessage('email-error-message','Invalid email address');
+  }else if(model.activeConversation.users.indexOf(memberEmail) > -1){
+    view.renderErrorMessage('email-error-message','This email already in the conversation.');
+  } else {
+    view.renderErrorMessage('email-error-message','');
+  }
+
+  if(memberEmail && emailRegex.test(memberEmail) && model.activeConversation.users.indexOf(memberEmail) ===-1){
+    model.addMember(memberEmail);
   }
 };

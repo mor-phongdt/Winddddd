@@ -73,10 +73,63 @@ view.setActiveScreen = (screenName) => {
             if (app) {
                 app.innerHTML = components.chatPage;
               }
-            const welcomeEle = document.getElementById('welcome');
-            if(welcomeEle){
-                welcomeEle.innerText =` Welcome back ${model.loginUser.email} `
+              //load all conversations
+              model.loadConversations();
+
+              //listen media query
+              const mediaQueryResult = window.matchMedia('only screen and (max-width: 768px)');
+              mediaQueryResult.addListener((mediaQuery)=>{
+                if(mediaQuery.matches){
+                  //render small conversation item
+                  view.renderSmallConversation();
+                }else{
+                  //render normal conversation item
+                  view.renderBigConversationItem();
+                }
+              });
+              
+              const messageInputElement = document.getElementById('message-input');
+              if(messageInputElement){
+                messageInputElement.addEventListener('focus',(event)=>{
+                  
+                });
+              }
+
+              const addNewConversation = document.getElementById('new-conversation');
+            if(addNewConversation){
+              addNewConversation.addEventListener('click',(event)=>{
+                model.clearConversation();
+                view.setActiveScreen('addNewConversation');
+              })
             }
+
+ 
+
+            const chatForm= document.getElementById('chat-form');
+            if(chatForm){
+              chatForm.addEventListener('submit',(event)=>{
+                event.preventDefault();
+                
+                const chatContainer = document.getElementById("message-container");
+
+                if(chatContainer&&chatForm.message.value){
+                  //save to firebase
+                  model.saveMessage(chatForm.message.value);
+                  chatForm.message.value = '';
+                }
+              });
+            }
+
+            //listen addMemberForm
+            const addMemberForm = document.getElementById('add-member-form');
+            if(addMemberForm){
+              addMemberForm.addEventListener('submit',event=>{
+                event.preventDefault();
+                const memberEmail = addMemberForm.email.value;
+                controller.validateAddMemberEmail(memberEmail);
+              });
+            }
+            
             break;
     case 'resetPasswordPage':
             if(app){
@@ -92,6 +145,30 @@ view.setActiveScreen = (screenName) => {
                 controller.validateResetInfo(email);
               });
             }
+            break;
+    case 'addNewConversation':
+      if(app){
+        app.innerHTML = components.addNewConversation;
+      }
+
+      const cancel = document.getElementById('cancel');
+      if(cancel){
+        cancel.addEventListener('click',(event)=>{
+          view.setActiveScreen('chatPage');
+        })
+      }
+
+      const form = document.getElementById('create-conversation-form');
+      if(form){
+        form.addEventListener('submit',event=>{
+          event.preventDefault();
+          const conversationName = form.conversationName.value;
+          const userEmail = form.userEmail.value;
+          controller.validateAddConversation(conversationName,userEmail);
+          view.setActiveScreen('chatPage');
+        })
+      }
+      break;
   }
 };
 
@@ -101,6 +178,7 @@ view.renderErrorMessage = (elementId, errorMessage) => {
     element.innerText = errorMessage;
   }
 }
+
 
 view.clearRegisterInfo = ()=>{
     const registerForm = document.getElementById('register-form');
@@ -112,3 +190,173 @@ view.clearRegisterInfo = ()=>{
         registerForm.confirmPassword.value='';
     }
 }
+
+view.sendMessage = (sender, messageContent) =>{
+  const messageContainer = document.getElementById('message-container');
+  if(messageContainer){
+    const messageItem = document.createElement('div');
+    const senderElement = document.createElement('div');
+    const messageContentElement = document.createElement('div');
+
+    messageItem.classList.add('message-item');
+    if(sender){
+      messageItem.classList.add('orther-message');
+    }else{
+      messageItem.classList.add('my-message');
+    }
+
+    senderElement.classList.add('sender');
+    if(sender){
+      senderElement.innerText = sender;
+    }
+    messageContentElement.classList.add('message-content');
+    messageContentElement.innerText = messageContent;
+
+    messageItem.appendChild(senderElement);
+    messageItem.appendChild(messageContentElement);
+
+    messageContainer.appendChild(messageItem);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+
+  }
+};
+
+view.renderConversationItem = (conversation)=>{
+  const conversationListContent = document.getElementById('conversation-list-content');
+  if(conversationListContent){
+    const conversationItem = document.createElement('div');
+    const mediaQueryResult = window.matchMedia('only screen and (max-width: 768px)');
+    const btnAddConversation = document.getElementById('new-conversation');
+    conversationItem.id = conversation.id;
+    conversationItem.classList.add('conversation-item');
+    conversationItem.setAttribute('data-conversation-name',conversation.name);
+    
+    if(mediaQueryResult.matches){
+      conversationItem.innerText = conversation.name[0].toUpperCase();
+      btnAddConversation.innerText = '+';
+    }else{
+      conversationItem.innerText = conversation.name;
+    }
+  
+    if(conversation.id === model.activeConversation.id){
+      conversationItem.classList.add('active-conversation');
+    }
+
+    conversationItem.addEventListener('click',(event)=>{
+      let conversationInfo;
+      model.conversations.forEach((item)=>{
+        if(item.id===conversation.id){
+          conversationInfo=item;
+        }
+      })
+
+      view.removeNotification(conversation.id);
+      //update model.conversation
+      model.changeActiveConversation(conversation);
+      
+      //update .active-conversation(style)
+      const activeConversationElement = document.querySelector('.active-conversation');
+      if(activeConversationElement){
+        activeConversationElement.classList.remove('active-conversation');
+      }
+      conversationItem.classList.add('active-conversation');
+      //update message container
+      const messageContainerElement = document.getElementById('message-container');
+      if(messageContainerElement){
+        messageContainerElement.innerText='';
+      }
+      conversationInfo.messages.forEach((item)=>{
+        if(item.user==model.loginUser.email){
+          view.sendMessage('',item.content);
+        }else{
+          view.sendMessage(item.user,item.content);
+        }
+      });
+      //update member list
+      const memberListElement = document.getElementById('member-list');
+      if(memberListElement){
+        memberListElement.innerText='';
+        conversationInfo.users.forEach((user)=>{
+          view.renderConversationUser(user);
+        })
+      }
+
+    });
+    conversationListContent.appendChild(conversationItem);
+  }
+};
+
+view.renderNotification = (conversationId)=>{
+  const conversationItemElement = document.getElementById(conversationId);
+  if(conversationItemElement){
+    //check exist noti
+    const existedNotificationElement = conversationItemElement.querySelector('.notification');
+    if(!existedNotificationElement){
+      const notiElement = document.createElement('span');
+      notiElement.classList.add('notification');
+      conversationItemElement.appendChild(notiElement);
+     ;
+    }
+  }
+};
+
+
+
+view.removeNotification = (conversationId)=>{
+  const conversationItemElement = document.getElementById(conversationId);
+  if(conversationItemElement){
+    const existedNotificationElement = conversationItemElement.querySelector(`#${conversationId} .notification`);
+    if(existedNotificationElement){
+      conversationItemElement.removeChild(existedNotificationElement);
+    }
+  }
+};
+
+view.renderSmallConversation = ()=>{
+  const conversationItemElements = document.getElementsByClassName('conversation-item');
+  for(let element of conversationItemElements){
+    const conversationName = element.innerText;
+    const firstLetter = conversationName[0];
+
+    element.innerText = firstLetter.toUpperCase();
+
+  }
+  const btnAddConversation = document.getElementById('new-conversation');
+  if(btnAddConversation){
+    btnAddConversation.innerText = '+';
+  }
+
+
+ 
+};
+
+
+view.renderBigConversationItem =()=>{
+  const conversationItemElements = document.getElementsByClassName('conversation-item');
+  for(let element of conversationItemElements){
+    const fullname = element.getAttribute('data-conversation-name');
+    element.innerText = fullname;
+  }
+  const btnAddConversation = document.getElementById('new-conversation');
+  if(btnAddConversation){
+    btnAddConversation.innerText=btnAddConversation.getAttribute('data-name');
+  }
+};
+
+view.renderConversationUser = (userEmail) =>{
+  const memberListElement = document.getElementById('member-list');
+  if(memberListElement){
+    const userElement = document.createElement('div');
+    userElement.classList.add('member-item');
+    userElement.innerText = userEmail;
+    
+    memberListElement.appendChild(userElement);
+  };
+};
+
+view.clearAddMemberForm = () =>{
+  const addMemberInput =  document.getElementById('member-input');
+  if(addMemberInput) {
+    addMemberInput.value = '';
+  }
+};

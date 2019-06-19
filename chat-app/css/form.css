@@ -39,3 +39,23 @@
   .error {
     color: #f5222d;
   }
+
+  .secondary-btn {
+    float: right;;
+    font-weight: 500;
+    color: black;
+    background-color: #ffffff;;
+    border-color: #4482FF;
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    line-height: 1.5;
+    padding: 0 25px;
+    font-size: 14px;
+    border-radius: 4px;
+    height: 36px;
+    margin-right: 12px;
+  }
