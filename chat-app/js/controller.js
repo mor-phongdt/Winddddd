@@ -106,6 +106,7 @@ controller.validateAddConversation = (conversationName,userEmail)=>{
   if(conversationName && userEmail && emailRegex.test(userEmail) && userEmail!== model.loginUser.email){
     model.createConversation(conversationName,userEmail);
   }
+<<<<<<< HEAD
 }
 
 controller.validateAddMemberEmail = (memberEmail)=>{
@@ -123,3 +124,6 @@ controller.validateAddMemberEmail = (memberEmail)=>{
     model.addMember(memberEmail);
   }
 };
+=======
+}
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18

@@ -86,7 +86,11 @@ components.loginPage = `
 </div>
 `;
 
+<<<<<<< HEAD
 components.chatPage =` <div id='chat-screen' class='chat-screen'>
+=======
+components.chatPage =`<div id='chat-screen' class='chat-screen'>
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
 <div class='header'>Mindx Chats</div>
 
 <div class='chat-container'>
@@ -132,6 +136,7 @@ components.chatPage =` <div id='chat-screen' class='chat-screen'>
       </form>
     </div>
   </div>
+<<<<<<< HEAD
   
   <div class='conversation-member' id='cnversation-member'>
 
@@ -158,6 +163,11 @@ components.chatPage =` <div id='chat-screen' class='chat-screen'>
 </div>
 </div>
 
+=======
+
+</div>
+</div>
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
 `;
 components.resetPasswordPage=`<div class='reset-password-container'>
 <div class='form-wrapper'>

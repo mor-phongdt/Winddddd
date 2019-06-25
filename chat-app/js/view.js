@@ -73,9 +73,12 @@ view.setActiveScreen = (screenName) => {
             if (app) {
                 app.innerHTML = components.chatPage;
               }
+<<<<<<< HEAD
               //load all conversations
               model.loadConversations();
 
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
               //listen media query
               const mediaQueryResult = window.matchMedia('only screen and (max-width: 768px)');
               mediaQueryResult.addListener((mediaQuery)=>{
@@ -87,6 +90,12 @@ view.setActiveScreen = (screenName) => {
                   view.renderBigConversationItem();
                 }
               });
+<<<<<<< HEAD
+=======
+              //load all conversations
+              model.loadConversations();
+
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
               
               const messageInputElement = document.getElementById('message-input');
               if(messageInputElement){
@@ -111,15 +120,22 @@ view.setActiveScreen = (screenName) => {
                 event.preventDefault();
                 
                 const chatContainer = document.getElementById("message-container");
+<<<<<<< HEAD
 
                 if(chatContainer&&chatForm.message.value){
                   //save to firebase
+=======
+                //chatContainer.innerHTML +="\n" +newMessage;
+                if(chatContainer&&chatForm.message.value){
+                  //save to database
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
                   model.saveMessage(chatForm.message.value);
                   chatForm.message.value = '';
                 }
               });
             }
 
+<<<<<<< HEAD
             //listen addMemberForm
             const addMemberForm = document.getElementById('add-member-form');
             if(addMemberForm){
@@ -129,6 +145,8 @@ view.setActiveScreen = (screenName) => {
                 controller.validateAddMemberEmail(memberEmail);
               });
             }
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
             
             break;
     case 'resetPasswordPage':
@@ -230,7 +248,10 @@ view.renderConversationItem = (conversation)=>{
     conversationItem.id = conversation.id;
     conversationItem.classList.add('conversation-item');
     conversationItem.setAttribute('data-conversation-name',conversation.name);
+<<<<<<< HEAD
     
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
     if(mediaQueryResult.matches){
       conversationItem.innerText = conversation.name[0].toUpperCase();
       btnAddConversation.innerText = '+';
@@ -271,6 +292,7 @@ view.renderConversationItem = (conversation)=>{
         }else{
           view.sendMessage(item.user,item.content);
         }
+<<<<<<< HEAD
       });
       //update member list
       const memberListElement = document.getElementById('member-list');
@@ -282,6 +304,10 @@ view.renderConversationItem = (conversation)=>{
       }
 
     });
+=======
+      })
+    })
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
     conversationListContent.appendChild(conversationItem);
   }
 };
@@ -297,6 +323,12 @@ view.renderNotification = (conversationId)=>{
       conversationItemElement.appendChild(notiElement);
      ;
     }
+<<<<<<< HEAD
+=======
+  
+
+
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
   }
 };
 
@@ -311,7 +343,10 @@ view.removeNotification = (conversationId)=>{
     }
   }
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
 view.renderSmallConversation = ()=>{
   const conversationItemElements = document.getElementsByClassName('conversation-item');
   for(let element of conversationItemElements){
@@ -325,9 +360,12 @@ view.renderSmallConversation = ()=>{
   if(btnAddConversation){
     btnAddConversation.innerText = '+';
   }
+<<<<<<< HEAD
 
 
  
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
 };
 
 
@@ -341,6 +379,7 @@ view.renderBigConversationItem =()=>{
   if(btnAddConversation){
     btnAddConversation.innerText=btnAddConversation.getAttribute('data-name');
   }
+<<<<<<< HEAD
 };
 
 view.renderConversationUser = (userEmail) =>{
@@ -359,4 +398,6 @@ view.clearAddMemberForm = () =>{
   if(addMemberInput) {
     addMemberInput.value = '';
   }
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
 };

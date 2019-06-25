@@ -89,7 +89,12 @@ model.loadConversations = ()=>{
                         break;
                     }
                 }
+<<<<<<< HEAD
               
+=======
+            //render last message
+          
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
                 for(let i = 0 ; i< model.conversations.length ; i+=1){
                     if(model.conversations[i].id===item.id){
                         model.conversations[i]=item;
@@ -107,6 +112,7 @@ model.loadConversations = ()=>{
                     view.renderConversationItem(item);
                     view.renderNotification(item.id);
                 }else{
+<<<<<<< HEAD
 
                     if(item.id===model.activeConversation.id){
                         //check new message or new member
@@ -125,6 +131,15 @@ model.loadConversations = ()=>{
                         }
 
                         
+=======
+                    if(item.id===model.activeConversation.id){
+                        const newMess = item.messages[item.messages.length-1];
+                        if(newMess.user===model.loginUser.email){
+                            view.sendMessage('',newMess.content);
+                        }else{
+                            view.sendMessage(newMess.user, newMess.content);
+                        }
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
                     }
                 }
             });
@@ -135,12 +150,15 @@ model.loadConversations = ()=>{
             model.conversations = conversations;
 
             if(model.activeConversation){
+<<<<<<< HEAD
                 //render all user of active conversation 
                 model.activeConversation.users.forEach(user =>{
                     view.renderConversationUser(user);
                 });
                 
                 //render all messages
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
                 model.activeConversation.messages.forEach((mess)=>{
                     if(mess.user==model.loginUser.email){
                         view.sendMessage('',mess.content);
@@ -149,12 +167,18 @@ model.loadConversations = ()=>{
                     }
                 });
             }
+<<<<<<< HEAD
             //render all conversation
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
            model.conversations.forEach((item)=>{
                 view.renderConversationItem(item);
             })
 
+<<<<<<< HEAD
             
+=======
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
         }
         
     });
@@ -182,6 +206,7 @@ model.createConversation = (conversationName,userEmail)=>{
 
 model.changeActiveConversation = (newActiveConversation)=>{
     model.activeConversation = newActiveConversation;
+<<<<<<< HEAD
 }
 
 model.addMember = (memberEmail) =>{
@@ -196,3 +221,6 @@ model.addMember = (memberEmail) =>{
         window.alert(error.message);
     });
 };
+=======
+}
+>>>>>>> daa02d486d8551f9a038ddaf7676f2b5d06b2e18
